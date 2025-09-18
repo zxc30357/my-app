@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор стоимости проектирования</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background-color: #292929;
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 0;
+        }
+        
+        .calculator-container {
+            width: 100%;
+            margin: 0 auto;
+            background-color: #292929;
+            overflow: hidden;
+        }
+        
+        .calculator-header {
+            background-color: #d8b781;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .calculator-header h1 {
+            color: #292929;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .calculator-header p {
+            color: #292929;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .calculator-body {
+            padding: 25px 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #d8b781;
+            border-radius: 8px;
+            background-color: #393939;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(216, 183, 129, 0.3);
+        }
+        
+        select option {
+            background-color: #393939;
+            color: #ffffff;
+            padding: 10px;
+        }
+        
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #d8b781;
+            outline: none;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            border: 2px solid #d8b781;
+        }
+        
+        .area-value {
+            color: #d8b781;
+            font-weight: 700;
+            min-width: 80px;
+            text-align: right;
+            font-size: 18px;
+        }
+        
+        .services-container {
+            margin: 25px 0;
+        }
+        
+        .service-item {
+            background-color: #393939;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d8b781;
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .service-title {
+            color: #d8b781;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .service-price {
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .service-description {
+            color: #cccccc;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background-color: #444444;
+            border-radius: 6px;
+        }
+        
+        .service-checkbox {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .service-checkbox input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .service-checkbox label {
+            margin-bottom: 0;
+            color: #d8b781;
+            font-weight: 500;
+        }
+        
+        .result-container {
+            background-color: #393939;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid #d8b781;
+        }
+        
+        .result-title {
+            color: #d8b781;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .result-amount {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .result-details {
+            color: #cccccc;
+            font-size: 14px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        
+        .additional-info {
+            margin-top: 40px;
+            background-color: #393939;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .additional-info h2 {
+            color: #d8b781;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d8b781;
+        }
+        
+        .technology {
+            margin-bottom: 25px;
+        }
+        
+        .technology h3 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .technology ul {
+            color: #cccccc;
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .technology li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .disclaimer {
+            color: #999999;
+            font-size: 14px;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #444444;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-header {
+                padding: 20px 15px;
+            }
+            
+            .calculator-header h1 {
+                font-size: 24px;
+            }
+            
+            .calculator-body {
+                padding: 20px 15px;
+            }
+            
+            .result-amount {
+                font-size: 28px;
+            }
+            
+            .additional-info {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .range-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .area-value {
+                text-align: left;
+            }
+            
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .service-price {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1>Калькулятор стоимости проектирования</h1>
+            <p>Рассчитайте ориентировочную стоимость услуг</p>
+        </div>
+        
+        <div class="calculator-body">
+            <div class="form-group">
+                <label for="area">Площадь (м²) / Участок (соток)</label>
+                <div class="range-container">
+                    <input type="range" id="area" min="10" max="500" value="100" step="1">
+                    <span id="area-value" class="area-value">100 м²</span>
+                </div>
+            </div>
+            
+            <div class="services-container">
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Эскизный проект (ЭП)</div>
+                        <div class="service-price">400-500 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: планировочные решения, 3D-визуализация экстерьера, обмерный план.
+                        Минимальная стоимость: 45 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-ep" data-price="450" data-min="45000" data-unit="м²">
+                        <label for="service-ep">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Архитектурный проект (АП)</div>
+                        <div class="service-price">600-700 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: фасады, разрезы, планы этажей, ведомость окон и дверей.
+                        Минимальная стоимость: 60 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-ap" data-price="650" data-min="60000" data-unit="м²">
+                        <label for="service-ap">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Архитектурно-строительный проект (АР+КР)</div>
+                        <div class="service-price">800-1000 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: полный комплект чертежей для строительства и прохождения экспертизы.
+                        Минимальная стоимость: 80 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-asp" data-price="900" data-min="80000" data-unit="м²">
+                        <label for="service-asp">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Инженерный проект (ИР) полный</div>
+                        <div class="service-price">400-500 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: разделы - электроснабжение, водоснабжение и канализация, отопление и вентиляция.
+                        Минимальная стоимость: 45 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-ir" data-price="450" data-min="45000" data-unit="м²">
+                        <label for="service-ir">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Смета на строительство дома</div>
+                        <div class="service-price">200-250 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: локальная смета в базовой комплектации.
+                        Минимальная стоимость: 25 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-estimate" data-price="225" data-min="25000" data-unit="м²">
+                        <label for="service-estimate">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Дизайн интерьера - Базовый комплект</div>
+                        <div class="service-price">1500 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: планы помещений с расстановкой мебели, 3D визуализация интерьера.
+                        Минимальная стоимость: 75 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-interior-basic" data-price="1500" data-min="75000" data-unit="м²">
+                        <label for="service-interior-basic">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Дизайн интерьера - Рабочий комплект</div>
+                        <div class="service-price">2200 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: базовый комплект + развертки стен, планы полов и потолков, спецификации основных отделочных материалов.
+                        Минимальная стоимость: 110 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-interior-working" data-price="2200" data-min="110000" data-unit="м²">
+                        <label for="service-interior-working">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Дизайн интерьера - Премиум комплект</div>
+                        <div class="service-price">2900 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: рабочий комплект + спецификации мебели, предметов интерьера и декора, авторский надзор.
+                        Минимальная стоимость: 150 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-interior-premium" data-price="2900" data-min="150000" data-unit="м²">
+                        <label for="service-interior-premium">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Ландшафтный дизайн</div>
+                        <div class="service-price">2500-3000 руб/сотка</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: генплан, дендроплан, разбивочный чертеж, схема мощения.
+                        Минимальная стоимость: 15 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-landscape" data-price="2750" data-min="15000" data-unit="сотка">
+                        <label for="service-landscape">Добавить к расчету</label>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Перепланировка</div>
+                        <div class="service-price">15 000 руб</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: разработка плана перепланировки, техническое заключение, согласование проекта.
+                        Фиксированная стоимость: 15 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-replanning" data-price="15000" data-min="15000" data-unit="фикс">
+                        <label for="service-replanning">Добавить к расчету</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-container">
+                <div class="result-title">Ориентировочная стоимость:</div>
+                <div id="result-amount" class="result-amount">0 руб.</div>
+                <div id="result-details" class="result-details">
+                    Выберите услуги для расчета стоимости
+                </div>
+            </div>
+            
+            <div class="additional-info">
+                <h2>Комплектация и ограничения проектов</h2>
+                
+                <div class="technology">
+                    <h3>1. Каркасная технология (дерево, ЛСТК)</h3>
+                    <ul>
+                        <li>В базовом варианте конструктив каркаса не прорабатывается!</li>
+                        <li>Состав комплекта чертежей каркасных домов и домов из бруса имеет особенности</li>
+                        <li>Доработка: развертки стен наружных и внутренних, выполнение спецификации конструкции каркаса, узлы сопряжений</li>
+                        <li>Сложность: выполнения подгонки стоек, балок и стропил. Усложнение на 30%</li>
+                        <li>Не выполняется: для домов с пролетами более 5,6м по длинной стороне между несущими стенами, высотой 1 этажа более 3м, высотой 2 этажа более 2,7м</li>
+                    </ul>
+                </div>
+                
+                <div class="technology">
+                    <h3>2. Дом из бруса и бревна</h3>
+                    <ul>
+                        <li>В базовом варианте конструктив каркаса не прорабатывается, нет раскладки бревен и спецификаций!</li>
+                        <li>Доработка: развертки стен наружных и внутренних, выполнение спецификации стен из бруса, узлы стен сопряжения бруса</li>
+                        <li>Усложнение на 30%</li>
+                        <li>Не выполняется: для домов с пролетами более 5,7м по длинной стороне между несущими стенами, высотой 1 этажа более 3м, высотой 2 этажа более 2,5м</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                *Цены являются ориентировочными и могут меняться в зависимости от сложности проекта, сроков выполнения и индивидуальных требований заказчика.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const areaSlider = document.getElementById('area');
+            const areaValue = document.getElementById('area-value');
+            const resultAmount = document.getElementById('result-amount');
+            const resultDetails = document.getElementById('result-details');
+            const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
+            const serviceHeaders = document.querySelectorAll('.service-header');
+            
+            // Функция для раскрытия/скрытия описания услуги
+            serviceHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const description = this.nextElementSibling;
+                    if (description.style.display === 'block') {
+                        description.style.display = 'none';
+                    } else {
+                        description.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Функция обновления результатов расчета
+            function updateCalculation() {
+                const area = parseInt(areaSlider.value);
+                let totalCost = 0;
+                let detailsText = '';
+                
+                // Перебираем все выбранные услуги
+                serviceCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const price = parseInt(checkbox.dataset.price);
+                        const min = parseInt(checkbox.dataset.min);
+                        const unit = checkbox.dataset.unit;
+                        const serviceName = checkbox.closest('.service-item').querySelector('.service-title').textContent;
+                        
+                        let serviceCost;
+                        if (unit === 'фикс') {
+                            // Для услуг с фиксированной стоимостью (перепланировка)
+                            serviceCost = min;
+                            detailsText += `${serviceName}: ${formatNumber(serviceCost)} руб.<br>`;
+                        } else {
+                            // Для услуг, зависящих от площади
+                            serviceCost = price * area;
+                            if (serviceCost < min) {
+                                serviceCost = min;
+                            }
+                            
+                            const unitText = unit === 'сотка' ? 'соток' : 'м²';
+                            detailsText += `${serviceName}: ${formatNumber(serviceCost)} руб. (${price} руб/${unit} × ${area} ${unitText})<br>`;
+                        }
+                        
+                        totalCost += serviceCost;
+                    }
+                });
+                
+                if (totalCost === 0) {
+                    resultAmount.textContent = '0 руб.';
+                    resultDetails.innerHTML = 'Выберите услуги для расчета стоимости';
+                } else {
+                    // Форматирование чисел с пробелами
+                    const formattedCost = formatNumber(totalCost);
+                    
+                    // Обновление результатов
+                    resultAmount.textContent = `${formattedCost} руб.`;
+                    resultDetails.innerHTML = detailsText;
+                }
+            }
+            
+            // Функция для форматирования чисел (добавление пробелов)
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+            
+            // Обработчики событий
+            areaSlider.addEventListener('input', function() {
+                const area = parseInt(this.value);
+                areaValue.textContent = `${area} м²`;
+                updateCalculation();
+            });
+            
+            serviceCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateCalculation);
+            });
+            
+            // Инициализация калькулятора
+            updateCalculation();
+        });
+    </script>
+</body>
+</html>
