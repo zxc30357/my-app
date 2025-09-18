@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор стоимости проектирования</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1>Калькулятор стоимости проектирования</h1>
+            <p>Рассчитайте ориентировочную стоимость услуг</p>
+        </div>
+        
+        <div class="calculator-body">
+            <div class="form-group">
+                <label for="area">Площадь (м²) / Участок (соток)</label>
+                <div class="range-container">
+                    <input type="range" id="area" min="10" max="500" value="100" step="1">
+                    <span id="area-value" class="area-value">100 м²</span>
+                </div>
+            </div>
+            
+            <div class="services-container">
+                <div class="service-item">
+                    <div class="service-header">
+                        <div class="service-title">Эскизный проект (ЭП)</div>
+                        <div class="service-price">400-500 руб/м²</div>
+                    </div>
+                    <div class="service-description">
+                        Состав: планировочные решения, 3D-визуализация экстерьера, обмерный план.<br />
+                        Минимальная стоимость: 45 000 руб.
+                    </div>
+                    <div class="service-checkbox">
+                        <input type="checkbox" id="service-ep" data-price="450" data-min="45000" data-unit="м²">
+                        <label for="service-ep">Добавить к расчету</label>
+                    </div>
+                </div>
+                <!-- Остальные блоки services аналогичны -->
+            </div>
+            
+            <div class="result-container">
+                <div class="result-title">Ориентировочная стоимость:</div>
+                <div id="result-amount" class="result-amount">0 руб.</div>
+                <div id="result-details" class="result-details">
+                    Выберите услуги для расчета стоимости
+                </div>
+            </div>
+            
+            <div class="additional-info">
+                <h2>Комплектация и ограничения проектов</h2>
+                <div class="technology">
+                    <h3>1. Каркасная технология (дерево, ЛСТК)</h3>
+                    <ul>
+                        <li>В базовом варианте конструктив каркаса не прорабатывается!</li>
+                        <li>Состав комплекта чертежей каркасных домов и домов из бруса имеет особенности</li>
+                        <li>Доработка: развертки стен наружных и внутренних, выполнение спецификации конструкции каркаса, узлы сопряжений</li>
+                        <li>Сложность: выполнения подгонки стоек, балок и стропил. Усложнение на 30%</li>
+                        <li>Не выполняется: для домов с пролетами более 5,6м по длинной стороне между несущими стенами, высотой 1 этажа более 3м, высотой 2 этажа более 2,7м</li>
+                    </ul>
+                </div>
+                <div class="technology">
+                    <h3>2. Дом из бруса и бревна</h3>
+                    <ul>
+                        <li>В базовом варианте конструктив каркаса не прорабатывается, нет раскладки бревен и спецификаций!</li>
+                        <li>Доработка: развертки стен наружных и внутренних, выполнение спецификации стен из бруса, узлы стен сопряжения бруса</li>
+                        <li>Усложнение на 30%</li>
+                        <li>Не выполняется: для домов с пролетами более 5,7м по длинной стороне между несущими стенами, высотой 1 этажа более 3м, высотой 2 этажа более 2,5м</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                *Цены являются ориентировочными и могут меняться в зависимости от сложности проекта, сроков выполнения и индивидуальных требований заказчика.
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
